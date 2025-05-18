@@ -1,21 +1,26 @@
-import React from "react"
-import {ROUTES} from "@/routes/routes.contants";
-import BoardLayout from "@/pages/BoardLayout";
-import BoardPage from "@/pages/BoardPage";
+import React, {lazy, Suspense} from 'react';
+import {ROUTES} from '@/routes/routes.contants';
+
+const BoardLayout = lazy(() => import('@/pages/BoardLayout'));
+const BoardPage = lazy(() => import('@/pages/BoardPage'));
 
 const MainRoutes = {
-    path: "/",
-    element: <BoardLayout/> as React.ReactNode,
+    path: '/',
+    element: (
+        <Suspense fallback={<div>Loading layout…</div>}>
+            <BoardLayout/>
+        </Suspense>
+    ),
     children: [
         {
             path: ROUTES.BOARD,
-            element: <BoardPage/> as React.ReactNode,
+            element: <BoardPage/>,
         },
         {
-            path: "*",
+            path: '*',
             element: <>Page Not Found</>,
         },
     ],
-}
+};
 
-export default MainRoutes
+export default MainRoutes;
