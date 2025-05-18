@@ -1,25 +1,29 @@
 import {configureStore} from '@reduxjs/toolkit';
 import {useDispatch, useSelector, type TypedUseSelectorHook} from 'react-redux';
-import boardSlice from './boardSlice';
-import {APIMockData} from "@/mocks/data";
+import {APIMockData} from '@/mocks/data';
+import boardSlice, {BoardsState} from "@/store/boardSlice";
 
-const keyStorage = 'trello'
+const keyStorage = 'trello';
 
-function loadMyBoards() {
+function loadMyBoards(): BoardsState['myBoards'] {
     try {
         const serialized = localStorage.getItem(keyStorage);
-        return serialized ? JSON.parse(serialized) : [];
+        if (serialized) {
+            return JSON.parse(serialized) as BoardsState['myBoards'];
+        }
+        return [...APIMockData];
     } catch {
-        return [];
+        return [...APIMockData];
     }
 }
 
-const preloadedState = {
+const preloadedState: { board: BoardsState } = {
     board: {
         myBoards: loadMyBoards(),
         activeProjectId: 0,
         activeBoardItem: null,
-    }
+        activeLabelFilter: null
+    },
 };
 
 export const store = configureStore({
@@ -32,10 +36,7 @@ export const store = configureStore({
 store.subscribe(() => {
     try {
         const {myBoards} = store.getState().board;
-
-
-        localStorage.setItem(keyStorage, myBoards.length ?
-            JSON.stringify(myBoards) : JSON.stringify(APIMockData));
+        localStorage.setItem(keyStorage, JSON.stringify(myBoards));
     } catch (err) {
         console.error(err);
     }
@@ -44,5 +45,6 @@ store.subscribe(() => {
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 
-export const useAppDispatch = () => useDispatch<AppDispatch>();
+export const useAppDispatch = (): AppDispatch => useDispatch<AppDispatch>();
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
+

@@ -2,7 +2,7 @@ import {createSlice, type PayloadAction} from '@reduxjs/toolkit';
 import {IMyBoard, type IBoard, type ICard, type ILabel} from "@/types/boardtypes";
 import {cloneDeep} from "lodash";
 
-interface BoardsState {
+export interface BoardsState {
     myBoards: IMyBoard[];
     activeProjectId: number;
     activeBoardItem: IMyBoard | null;

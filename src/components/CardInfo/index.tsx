@@ -68,13 +68,15 @@ const TaskList = styled.div`
     gap: 12px;
 `;
 
-const CardInfoAntdStyled = (props: {
+interface CardInfoProps {
     onClose: () => void;
     card: ICard;
     boardId: number;
     labels: ILabel[];
     updateCard: (boardId: number, cardId: number, card: ICard) => void;
-}) => {
+}
+
+const CardInfoAntdStyled: React.FC<CardInfoProps> = (props) => {
     const {onClose, card, boardId, updateCard, labels} = props;
     const [selectedColor, setSelectedColor] = useState<string>('');
     const [cardValues, setCardValues] = useState<ICard>({...card});

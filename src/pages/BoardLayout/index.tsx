@@ -10,7 +10,7 @@ import {setProjectId} from "@/store/boardSlice";
 const {Content} = Layout;
 const defaultBgColor = 'rgb(0, 121, 191)';
 
-const BoardLayout = () => {
+const BoardLayout: React.FC = () => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
     const {boardId} = useParams() as unknown as IRouteParam;
@@ -19,11 +19,11 @@ const BoardLayout = () => {
     const {myBoards, activeProjectId} = useAppSelector((state: RootState) => state.board);
 
     const getSelectedMyBoard = (): IMyBoard | undefined =>
-        myBoards.find(w => w.id === Number(boardId))
+        myBoards.find((w) => w.id === Number(boardId))
 
     useEffect(() => {
         const selected = getSelectedMyBoard();
-        setBackgroundColor(selected?.meta.backgroundColor || defaultBgColor);
+        setBackgroundColor(selected?.meta?.backgroundColor || defaultBgColor);
         dispatch(setProjectId((selected?.id || 1)))
     }, [myBoards, boardId]);
 

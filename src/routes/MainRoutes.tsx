@@ -1,4 +1,4 @@
-import React, {lazy, Suspense} from 'react';
+import {lazy, Suspense} from 'react';
 import {ROUTES} from '@/routes/routes.contants';
 
 const BoardLayout = lazy(() => import('@/pages/BoardLayout'));
